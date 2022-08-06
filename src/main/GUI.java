@@ -4,6 +4,7 @@ import com.sun.media.sound.SF2Soundbank;
 import main.utils.ByteArrayNode;
 import org.displee.CacheLibrary;
 import org.displee.cache.index.Index;
+import org.displee.cache.index.archive.Archive;
 import org.gagravarr.vorbis.VorbisFile;
 
 import javax.sound.midi.*;
@@ -1886,7 +1887,11 @@ public class GUI {
 
 				int idInt = Integer.parseInt(id);
 
-				ByteBuffer midiBuffer = ByteBuffer.wrap(cacheLibrary.getIndex(6).getArchive(idInt).getFile(0).getData());
+				Index index = cacheLibrary.getIndex(0);
+				Archive archive = index.getArchive(idInt);
+				org.displee.cache.index.archive.file.File file = archive.getFile(0);
+				byte[] data = file.getData();
+				ByteBuffer midiBuffer = ByteBuffer.wrap(data);
 				MidiTrack midiTrack = new MidiTrack(midiBuffer, true);
 
 				try {
@@ -1946,25 +1951,36 @@ public class GUI {
 
 		private void dumpAllMusic() {
 
-			for (int idInt = 0; idInt < cacheLibrary.getIndex(6).getArchives().length; idInt++) {
-				ByteBuffer midiBuffer = ByteBuffer.wrap(cacheLibrary.getIndex(6).getArchive(idInt).getFile(0).getData());
-				MidiTrack midiTrack = new MidiTrack(midiBuffer, true);
-
-				try {
-					File dir = new File("./MIDI/Music/");
-					if (dir.mkdirs()) {
-						System.out.println("Created new directory: /MIDI/Music/");
-						DataOutputStream dos = new DataOutputStream(new FileOutputStream(new File("./MIDI/Music/" + idInt + ".mid")));
-						dos.write(midiTrack.getMidi());
-						System.out.println("Wrote MIDI data to file! - " + idInt);
-					} else {
-						System.out.println("Couldn't create new directory (It might already exist).");
-						DataOutputStream dos = new DataOutputStream(new FileOutputStream(new File("./MIDI/Music/" + idInt + ".mid")));
-						dos.write(midiTrack.getMidi());
-						System.out.println("Wrote MIDI data to file! - " + idInt);
+			for (int j = 0; j < cacheLibrary.getIndices().length; j++) {
+				if (cacheLibrary.getIndex(j).getArchives() == null) {
+					continue;
+				}
+				for (int idInt = 0; idInt < cacheLibrary.getIndex(j).getArchives().length; idInt++) {
+					Archive archive = cacheLibrary.getIndex(j).getArchive(idInt);
+					for (int i = 0; i < archive.getFiles().length; i++) {
+						try {
+							byte[] data = archive.getFile(i).getData();
+							System.out.println(data.length);
+							ByteBuffer midiBuffer = ByteBuffer.wrap(data);
+							MidiTrack midiTrack = new MidiTrack(midiBuffer, true);
+			
+							File dir = new File("./MIDI/Music/");
+							String fileName = "./MIDI/Music/" + idInt + "_" + i + ".mid";
+							if (dir.mkdirs()) {
+								System.out.println("Created new directory: /MIDI/Music/");
+								DataOutputStream dos = new DataOutputStream(new FileOutputStream(new File(fileName)));
+								dos.write(midiTrack.getMidi());
+								System.out.println("Wrote MIDI data to file! - " + fileName);
+							} else {
+								System.out.println("Couldn't create new directory (It might already exist).");
+								DataOutputStream dos = new DataOutputStream(new FileOutputStream(new File(fileName)));
+								dos.write(midiTrack.getMidi());
+								System.out.println("Wrote MIDI data to file! - " + fileName);
+							}
+						} catch (Exception e) {
+							//e.printStackTrace();
+						}
 					}
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
 			}
 		}

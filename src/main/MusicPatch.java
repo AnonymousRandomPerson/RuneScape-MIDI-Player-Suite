@@ -891,7 +891,7 @@ public class MusicPatch extends Node {
                 for (int layer = 0; layer < ((SF2Instrument) (sf2Soundbank.getInstrument(patch))).getRegions().get(region).getLayer().getRegions().toArray().length; layer++) {
 
                     SF2Sample sf2Sample = ((SF2Instrument) (sf2Soundbank.getInstrument(patch))).getRegions().get(region).getLayer().getRegions().get(layer).getSample();
-                    byte[] sampleBytes = ((AudioInputStream) sf2Sample.getData()).readAllBytes();
+                    byte[] sampleBytes = new byte[0];//((AudioInputStream) sf2Sample.getData()).readAllBytes();
                     byte[] noteRange = ((SF2Instrument) (sf2Soundbank.getInstrument(patch))).getRegions().get(region).getLayer().getRegions().get(layer).getBytes(SF2Region.GENERATOR_KEYRANGE);
                     int loopMode = ((SF2Instrument) (sf2Soundbank.getInstrument(patch))).getRegions().get(region).getLayer().getRegions().get(layer).getInteger(SF2Region.GENERATOR_SAMPLEMODES);
                     int pitchCorrection = sf2Sample.getPitchCorrection();
@@ -965,14 +965,14 @@ public class MusicPatch extends Node {
                     SF2Sample sf2Sample = ((SF2Instrument) (sf2Soundbank.getInstrument(patch))).getRegions().get(region).getLayer().getRegions().get(layer).getSample();
                     byte[] sampleBytes = null;
                     if (sf2Sample.getSampleType() == 4 && leftChannel) {
-                        sampleBytes = ((AudioInputStream) sf2Sample.getData()).readAllBytes();
+                        //sampleBytes = ((AudioInputStream) sf2Sample.getData()).readAllBytes();
                     }
                     if (sf2Sample.getSampleType() == 2 && !leftChannel) {
-                        sampleBytes = ((AudioInputStream) sf2Sample.getData()).readAllBytes();
+                        //sampleBytes = ((AudioInputStream) sf2Sample.getData()).readAllBytes();
                     }
 
                     if (sf2Sample.getSampleType() == 1) {
-                        sampleBytes = ((AudioInputStream) sf2Sample.getData()).readAllBytes();
+                        //sampleBytes = ((AudioInputStream) sf2Sample.getData()).readAllBytes();
                     }
 
                     byte[] noteRange = ((SF2Instrument) (sf2Soundbank.getInstrument(patch))).getRegions().get(region).getLayer().getRegions().get(layer).getBytes(SF2Region.GENERATOR_KEYRANGE);
@@ -1038,7 +1038,7 @@ public class MusicPatch extends Node {
                 for (int layer = 0; layer < ((SF2Instrument) (sf2Soundbank.getInstrument(patch))).getRegions().get(region).getLayer().getRegions().toArray().length; layer++) {
 
                     SF2Sample sf2Sample = ((SF2Instrument) (sf2Soundbank.getInstrument(patch))).getRegions().get(region).getLayer().getRegions().get(layer).getSample();
-                    byte[] sampleBytes = ((AudioInputStream) sf2Sample.getData()).readAllBytes();
+                    byte[] sampleBytes = new byte[0];//((AudioInputStream) sf2Sample.getData()).readAllBytes();
 
                     byte[] noteRange = ((SF2Instrument) (sf2Soundbank.getInstrument(patch))).getRegions().get(region).getLayer().getRegions().get(layer).getBytes(SF2Region.GENERATOR_KEYRANGE);
                     int loopModes = ((SF2Instrument) (sf2Soundbank.getInstrument(patch))).getRegions().get(region).getLayer().getRegions().get(layer).getInteger(SF2Region.GENERATOR_SAMPLEMODES);
@@ -1089,7 +1089,7 @@ public class MusicPatch extends Node {
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(PatchBanks.CUSTOM_SOUND_PATH + "/Samples/" + sampleName + ".au/"));
         AudioFormat audioFormat = audioInputStream.getFormat();
 
-        byte[] audioSample = audioInputStream.readAllBytes();
+        byte[] audioSample = new byte[0];//audioInputStream.readAllBytes();
 
         AudioBuffer audioBuffer;
 

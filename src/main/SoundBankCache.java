@@ -102,7 +102,7 @@ public class SoundBankCache {
     public static AudioBuffer getCustomSoundEffect(File idx4, int i, int[] var3) throws IOException, UnsupportedAudioFileException {
 
         File soundEffectFile = new File(idx4.toString() + "/" + i + ".wav/");
-        byte[] data = AudioSystem.getAudioInputStream(soundEffectFile).readAllBytes();
+        byte[] data = new byte[0];//AudioSystem.getAudioInputStream(soundEffectFile).readAllBytes();
         int sampleRate = (int) AudioSystem.getAudioInputStream(soundEffectFile).getFormat().getSampleRate();
 
         for (int l = 0; l < data.length; l++) {
@@ -120,7 +120,7 @@ public class SoundBankCache {
         try {
             File sampleFile = new File(idx14.toString() + "/" + id + ".wav/");
 
-            byte[] data = AudioSystem.getAudioInputStream(sampleFile).readAllBytes();
+            byte[] data = new byte[0];//AudioSystem.getAudioInputStream(sampleFile).readAllBytes();
             sampleRate = (int) AudioSystem.getAudioInputStream(sampleFile).getFormat().getSampleRate();
 
             for (int l = 0; l < data.length; l++) {
